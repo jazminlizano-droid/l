@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+<html lang="es"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>CuscoPlan</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Young+Serif&family=Nunito+Sans:wght@400;600;700&display=swap">
+<style>
+:root{--bg:#E8EBE2;--card:#F6F5EF;--ink:#26301F;--mut:#5C6553;--g:#2F5233;--gl:#DCE6D4;--e:#7B4F2C;--el:#EADCCB;--o:#B98A2E;--line:#CBD1C0;--sky1:#CFD9C1;--sky2:#EAD9B8;--m1:#A9BC9A;--m2:#5F8A5B;--m3:#3F6B43;--t:#C9A868;--r:#8A6A45;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media(prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#1A2016;--card:#242C1F;--ink:#ECEFE4;--mut:#A9B39D;--g:#8FBF8A;--gl:#2E3B29;--e:#D2A06E;--el:#3A2E22;--o:#D9AE55;--line:#3A4433;--sky1:#141B12;--sky2:#2A2418;--m1:#2B3A28;--m2:#33513A;--m3:#263D28;--t:#6E5A34;--r:#5A4530}}
+:root[data-theme="dark"]{--bg:#1A2016;--card:#242C1F;--ink:#ECEFE4;--mut:#A9B39D;--g:#8FBF8A;--gl:#2E3B29;--e:#D2A06E;--el:#3A2E22;--o:#D9AE55;--line:#3A4433;--sky1:#141B12;--sky2:#2A2418;--m1:#2B3A28;--m2:#33513A;--m3:#263D28;--t:#6E5A34;--r:#5A4530}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+*{box-sizing:border-box}
+html{background:var(--bg)}body{margin:0;background:transparent;color:var(--ink);font:16px/1.55 'Nunito Sans',system-ui,sans-serif}
+main{max-width:560px;margin:0 auto;padding:16px 16px 40px}
+h1,h2,h3{font-family:'Young Serif',Georgia,serif;font-weight:400;margin:0}
+.top{display:flex;justify-content:space-between;align-items:center;margin-bottom:14px}
+.logo{font:400 22px 'Young Serif',Georgia,serif;color:var(--g)}
+.lang{display:flex;border:1.5px solid var(--g);border-radius:99px;overflow:hidden}
+.lang button{border:0;background:none;color:var(--g);font:700 13px inherit;padding:7px 14px;cursor:pointer}
+.lang button.on{background:var(--g);color:var(--bg)}
+.hero{background:var(--g);color:#F1F4E8;border-radius:22px;padding:22px 20px 0;overflow:hidden}
+.hero h1{font-size:28px;line-height:1.15}
+.hero p{margin:10px 0 0;opacity:.92}
+.hero svg{display:block;width:100%;height:auto;margin-top:8px}
+.box{background:color-mix(in srgb,var(--card) 93%,transparent);border:1px solid var(--line);border-radius:18px;padding:18px;margin-top:16px}
+h2{font-size:20px;margin-bottom:12px}
+.days{display:grid;grid-template-columns:repeat(6,1fr);gap:6px}
+.days button{border:1.5px solid var(--line);background:var(--bg);color:var(--ink);border-radius:12px;padding:12px 0;font:700 17px inherit;cursor:pointer}
+.days button.on{background:var(--e);border-color:var(--e);color:#fff}
+.chips{display:flex;flex-wrap:wrap;gap:8px}
+.chips button{border:1.5px solid var(--line);background:var(--bg);color:var(--ink);border-radius:99px;padding:9px 15px;font:600 15px inherit;cursor:pointer}
+.chips button.on{background:var(--gl);border-color:var(--g);color:var(--g)}
+.lbl{font-weight:700;margin:0 0 8px}
+.lbl+.days,.lbl+.chips{margin-bottom:16px}
+.cta{width:100%;border:0;background:var(--o);color:#1E1A0E;font:700 17px inherit;padding:15px;border-radius:14px;cursor:pointer;margin-top:4px}
+.cta.wa{background:#1F7A45;color:#fff;display:flex;justify-content:center;gap:8px;align-items:center}
+button:focus-visible,summary:focus-visible{outline:3px solid var(--o);outline-offset:2px}
+.day{border-left:4px solid var(--g);background:color-mix(in srgb,var(--card) 93%,transparent);border-radius:0 16px 16px 0;padding:14px 16px;margin-top:12px}
+.day.easy{border-color:var(--o)}
+.dh{display:flex;justify-content:space-between;gap:8px;align-items:baseline;flex-wrap:wrap}
+.dh h3{font-size:18px}
+.alt{font-size:13px;font-weight:700;color:var(--e);background:var(--el);border-radius:99px;padding:2px 10px}
+.day ul{margin:8px 0 0;padding-left:18px}
+.day li{margin:5px 0}
+.note{font-size:14px;color:var(--mut);margin:0 0 4px}
+details{border-top:1px solid var(--line);padding:2px 0}
+details:first-of-type{border-top:0}
+summary{font-weight:700;padding:12px 0;cursor:pointer;color:var(--g)}
+details ul{margin:0 0 12px;padding-left:18px;color:var(--ink)}
+details li{margin:4px 0}
+.hide{display:none}
+.bg{position:fixed;inset:0;width:100%;height:100%;z-index:-1}
+.int{margin-left:8px;border:1.5px solid var(--g);background:none;color:var(--g);border-radius:99px;font:700 12px inherit;padding:3px 10px;cursor:pointer;white-space:nowrap}
+.int:disabled{background:var(--gl);border-color:transparent;cursor:default}
+.row{margin:12px 0}.rt small{display:block;color:var(--mut);font-size:13px}
+.bar{display:flex;align-items:center;gap:8px;margin-top:4px}.bar i{height:14px;background:var(--g);border-radius:7px;min-width:4px}
+footer{text-align:center}.lnk{background:none;border:0;color:var(--mut);text-decoration:underline;font:inherit;font-size:13px;margin-top:20px;cursor:pointer}
+.acts{display:grid;grid-template-columns:1fr 1fr;gap:8px}.cta.sec{background:var(--gl);color:var(--g);margin:0;padding:12px}#bshr{grid-column:1/3}
+.sel2{width:100%;padding:12px;border-radius:12px;border:1.5px solid var(--line);background:var(--bg);color:var(--ink);font:600 16px inherit;margin-bottom:12px}
+.opt{border:1px solid var(--line);border-radius:14px;padding:12px 14px;margin-top:10px;background:var(--bg)}.opt h3{font-size:17px;margin-bottom:4px}.opt p{margin:0}
+.tags{display:flex;flex-wrap:wrap;gap:6px;margin-top:8px}.tg{font-size:13px;font-weight:700;border-radius:99px;padding:3px 10px;color:#fff}
+.l0{background:#3F7A45}.l1{background:#8F6B12}.l2{background:#9A5B26}.l3{background:#9C3A2A}.l9{background:var(--mut)}
+.rec{margin-top:12px;padding:12px 14px;border-radius:12px;background:var(--gl);font-weight:600}
+.ch{display:grid;grid-template-columns:repeat(12,1fr);gap:3px;margin-top:14px}.mc{display:flex;flex-direction:column;align-items:center;border-radius:8px;padding:4px 0}.mc.on{background:var(--el)}
+.bs{display:flex;align-items:flex-end;gap:2px;height:56px}.bs i{width:7px;border-radius:3px 3px 0 0;display:block}.bs .a{background:var(--g)}.bs .b{background:var(--e)}.mc small{font-size:11px;color:var(--mut)}
+.lgd{font-size:13px;color:var(--mut);margin:8px 0 0}
+</style></head><body><svg class="bg" viewBox="0 0 400 800" preserveAspectRatio="xMidYMax slice" aria-hidden="true"><defs><linearGradient id="sk" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="var(--sky1)"/><stop offset="1" stop-color="var(--sky2)"/></linearGradient></defs><rect width="400" height="800" fill="url(#sk)"/><path d="M0 500 L60 430 L120 470 L200 380 L280 460 L350 410 L400 440 L400 800 L0 800Z" fill="var(--m1)"/><path d="M215 590 L245 380 L262 330 L276 300 L292 340 L312 400 L340 590Z" fill="var(--m2)"/><path d="M262 330 L268 420 L258 520M282 320 L290 430" stroke="var(--m3)" stroke-width="3" fill="none" opacity=".6"/><path d="M0 800 L0 590 Q110 560 220 595 L400 640 L400 800Z" fill="var(--m3)"/><g stroke="var(--t)" stroke-width="3" fill="none" opacity=".85"><path d="M0 640 Q120 610 240 640 T400 675"/><path d="M0 665 Q120 635 240 665 T400 700"/><path d="M0 690 Q120 660 240 690 T400 725"/><path d="M0 715 Q120 685 240 715 T400 750"/></g><g fill="var(--r)"><path d="M110 618 h34 v-14 l-17 -10 l-17 10z"/><path d="M155 624 h28 v-12 l-14 -9 l-14 9z"/><path d="M60 632 h30 v-12 l-15 -9 l-15 9z"/><path d="M195 630 h26 v-11 l-13 -8 l-13 8z"/></g></svg><main>
+<div class="top"><span class="logo">CuscoPlan</span><div class="lang"><button id="bes">ES</button><button id="ben">EN</button></div></div>
+<div id="app"><section class="hero">
+<h1 id="h1"></h1><p id="hp"></p>
+<svg viewBox="0 0 400 70" aria-hidden="true"><path d="M0 70 L0 52 L60 30 L95 46 L150 12 L205 44 L250 26 L310 50 L350 34 L400 48 L400 70Z" fill="#3F6B43"/><path d="M0 70 L0 60 L80 44 L140 58 L210 38 L290 60 L360 46 L400 58 L400 70Z" fill="#B98A2E" opacity=".85"/></svg>
+</section>
+<section class="box">
+<p class="lbl" id="ld"></p><div class="days" id="days"></div>
+<p class="lbl" id="li"></p><div class="chips" id="chips"></div>
+<button class="cta" id="go"></button>
+</section>
+<section id="out" class="hide">
+<h2 id="ot" style="margin-top:22px"></h2>
+<div id="plan"></div>
+<button class="cta wa" id="wa" style="margin-top:16px"></button>
+<div class="box" style="margin-top:12px"><p class="lbl" id="sht"></p><div class="acts"><button class="cta sec" id="bpdf"></button><button class="cta sec" id="bimg"></button><button class="cta sec" id="bshr"></button></div><p class="note" id="st" role="status"></p></div>
+</section>
+<section class="box" id="rt"><h2 id="rth"></h2><label class="lbl" for="ro" id="rlo" style="display:block"></label><select class="sel2" id="ro"></select><label class="lbl" for="rm" id="rlm" style="display:block"></label><select class="sel2" id="rm"></select><div id="rout" aria-live="polite"></div></section>
+<section class="box"><h2 id="tt"></h2><div id="tips"></div></section>
+</div><section id="hv" class="box hide"></section><footer><button class="lnk" id="hb"></button></footer></main>
+<script>
+// Cambia este número (código de país + número, sin + ni espacios) por el WhatsApp del hostal.
+const HOTEL_WA="51999999999";
+// Código para abrir la vista del hostal (solo comodidad, no es seguridad real). Cámbialo.
+const HOSTAL_PIN="cusco2026";
+const I=[["cul","Historia y cultura","History & culture"],["gas","Gastronomía","Food"],["nat","Naturaleza","Nature"],["adv","Aventura","Adventure"],["rel","Relax","Relax"]];
+const S=[
+{t:["Llegada y descanso","Arrival and rest"],a:3400,i:[
+[0,"Descansa en el hotel, bebe agua y toma mate de coca. Nada de esfuerzo.","Rest at the hotel, drink water and have coca tea. No effort today."],
+[0,"Tarde: paseo corto y plano por la Plaza de Armas (30–40 min).","Afternoon: short, flat walk around the Plaza de Armas (30–40 min)."],
+[0,"Noche: cena ligera y temprano; evita el alcohol.","Evening: light early dinner; skip alcohol."],
+["gas","Prueba una sopa de quinua o un caldo: livianos y fáciles de digerir.","Try a quinoa soup or a broth: light and easy to digest."]]},
+{t:["Centro histórico a paso lento","Historic center, slow pace"],a:3400,i:[
+[0,"Mañana: Qorikancha y Catedral, con pausas para sentarte.","Morning: Qorikancha and the Cathedral, with rest breaks."],
+[0,"Tarde: barrio de San Blas y sus talleres de artesanos.","Afternoon: San Blas neighborhood and its artisan workshops."],
+["cul","Suma el Museo Inka o el Museo de Arte Precolombino.","Add the Inca Museum or the Pre-Columbian Art Museum."],
+["gas","Almuerzo en el Mercado de San Pedro: jugos, quesos y pan.","Lunch at San Pedro Market: juices, cheeses and bread."],
+["rel","Café tranquilo en San Blas y masaje suave al final del día.","Quiet café in San Blas and a gentle massage in the evening."],
+["nat","Camina al mirador de San Cristóbal en taxi y baja andando.","Take a taxi up to the San Cristóbal viewpoint and walk down."],
+["adv","Visita Sacsayhuamán en taxi y recorre solo lo plano.","Taxi to Sacsayhuamán and walk only the flat parts."]]},
+{t:["Valle Sagrado (más bajo)","Sacred Valley (lower)"],a:2800,i:[
+[0,"Excursión de día al Valle Sagrado: baja a unos 2 800 m y se respira mejor.","Day trip to the Sacred Valley: about 2,800 m, so breathing is easier."],
+[0,"Ollantaytambo: ruinas y pueblo inca con calles de piedra.","Ollantaytambo: Inca ruins and a stone-street village."],
+["cul","Pisac: ruinas y mercado artesanal.","Pisac: ruins and craft market."],
+["gas","Almuerzo buffet en Urubamba y cata de maíz gigante y chicha.","Buffet lunch in Urubamba, with giant corn and chicha tasting."],
+["nat","Moray y las salineras de Maras.","Moray terraces and the Maras salt pans."],
+["adv","Cabalgata suave o bici por Maras.","Easy horseback ride or bike around Maras."],
+["rel","Tarde libre en Urubamba: jardines y té.","Free afternoon in Urubamba: gardens and tea."]]},
+{t:["Machu Picchu","Machu Picchu"],a:2400,i:[
+[0,"Tren temprano a Machu Picchu (2 400 m): ya estás mejor adaptado.","Early train to Machu Picchu (2,400 m): you should be better adjusted by now."],
+[0,"Recorre la ciudadela con guía y lleva protector solar, agua y poncho de lluvia.","Tour the citadel with a guide; bring sunscreen, water and a rain poncho."],
+["cul","Pide circuito completo con explicación de los templos.","Ask for the full circuit with temple explanations."],
+["nat","Sube al Puente Inca o al mirador de la Puerta del Sol si tienes energía.","Walk to the Inca Bridge or Sun Gate viewpoint if you have energy."],
+["gas","Cena en Aguas Calientes y duerme allí si el tren lo permite.","Dinner in Aguas Calientes; stay overnight if the train schedule allows."],
+["rel","Termas de Aguas Calientes al terminar.","Aguas Calientes hot springs afterwards."]]},
+{t:["Día suave y compras","Easy day and shopping"],a:3400,i:[
+[0,"Mañana libre: descansa del viaje y desayuna sin prisa.","Free morning: recover from the trip and have a slow breakfast."],
+[0,"Tarde: mercados y tiendas de tejidos (regatea con amabilidad).","Afternoon: markets and textile shops (bargain politely)."],
+["gas","Clase de cocina peruana: ceviche, lomo saltado y pisco sour.","Peruvian cooking class: ceviche, lomo saltado and pisco sour."],
+["cul","Visita el Centro de Textiles Tradicionales.","Visit the Center for Traditional Textiles."],
+["rel","Spa o baño de vapor en tu hotel.","Spa or steam bath at your hotel."],
+["nat","Paseo por Tipón y sus terrazas de agua.","Visit Tipón and its water terraces."],
+["adv","Clase de escalada o rápel en las afueras, nivel principiante.","Beginner climbing or rappel class outside town."]]},
+{t:["Día de altura","High-altitude day"],a:4200,i:[
+[0,"Ya llevas varios días adaptándote. Sal temprano con guía y lleva capas, agua y snacks.","You have had several days to adjust. Leave early with a guide; bring layers, water and snacks."],
+["nat","Laguna Humantay (4 200 m): caminata de 2 h, sube despacio.","Humantay Lagoon (4,200 m): 2-hour hike, go up slowly."],
+["adv","Montaña de Colores (5 000 m) solo si te sientes muy bien; si tienes síntomas, elige Humantay.","Rainbow Mountain (5,000 m) only if you feel great; with any symptoms, pick Humantay instead."],
+["cul","Ruta a Andahuaylillas y Raqchi: templos y sitio inca a menor altura.","Andahuaylillas and Raqchi route: churches and an Inca site at lower altitude."],
+["gas","Almuerzo campestre en un restaurante con productos de la zona.","Country lunch at a restaurant using local produce."],
+["rel","Termas de Pumamarca o un día en el Valle, sin exigirte.","Pumamarca hot springs or a calm day in the Valley."]]},
+{t:["Despedida tranquila","Calm farewell"],a:3400,i:[
+[0,"Mañana suave: última vuelta por San Blas o la plaza.","Easy morning: one last walk around San Blas or the plaza."],
+[0,"Tarde: recuerdos, fotos y descanso antes de viajar.","Afternoon: souvenirs, photos and rest before traveling."],
+["gas","Cena de despedida con cocina novoandina.","Farewell dinner with novo-Andean cuisine."],
+["rel","Cierra con té de hierbas y música en vivo.","Finish with herbal tea and live music."]]}];
+const TIPS=[
+["Altura","Altitude",[["Llegas a 3 400 m: el aire tiene menos oxígeno. Descansa el día 1.","You arrive at 3,400 m, where the air has less oxygen. Rest on day 1."],["Bebe agua seguido; el mate de coca ayuda.","Drink water often; coca tea helps."],["Evita alcohol y comidas pesadas los primeros días.","Avoid alcohol and heavy meals the first days."],["Camina despacio y descansa en las subidas.","Walk slowly and rest on climbs."],["Dolor de cabeza fuerte, vómitos o falta de aire en reposo: avisa al hotel y busca atención médica.","Severe headache, vomiting or breathlessness at rest: tell the hotel and seek medical care."],["Consulta con tu médico antes de viajar si tienes problemas cardíacos o respiratorios, o estás embarazada.","Check with your doctor before traveling if you have heart or lung conditions, or are pregnant."]]],
+["Qué llevar","What to bring",[["Ropa en capas: polar, cortaviento y algo ligero.","Layered clothing: fleece, windbreaker and something light."],["Protector solar, lentes y gorro: el sol de altura es fuerte.","Sunscreen, sunglasses and a hat: high-altitude sun is strong."],["Zapatos cómodos con buen agarre para piedra.","Comfortable shoes with good grip on stone."],["Botella reutilizable, poncho de lluvia y mochila pequeña.","Reusable bottle, rain poncho and a small daypack."],["Tu pasaporte para Machu Picchu y tren.","Your passport for Machu Picchu and the train."]]],
+["Clima","Weather",[["Mayo a octubre: seco, días soleados y noches muy frías.","May to October: dry, sunny days and very cold nights."],["Noviembre a abril: lluvias, sobre todo por la tarde.","November to April: rainy, mostly in the afternoons."],["En un mismo día puedes pasar de sol a frío: usa capas.","You can go from sun to cold in one day: use layers."]]],
+["Seguridad","Safety",[["Usa taxis del hotel o apps; evita paradas al azar de noche.","Use hotel taxis or apps; avoid random pickups at night."],["Cuida bolsos y celular en mercados y calles llenas.","Watch bags and phones in markets and crowded streets."],["Contrata tours con agencias formales y pregunta por seguros.","Book tours with licensed agencies and ask about insurance."],["No aceptes comida o bebidas de desconocidos.","Do not accept food or drinks from strangers."],["Guarda una copia digital de tu pasaporte.","Keep a digital copy of your passport."]]]];
+const TX={
+h1:["Tu plan en Cusco, sin apuros","Your Cusco plan, no rush"],
+hp:["Elige tus días y gustos. Te armamos un itinerario que te ayuda a adaptarte a la altura.","Pick your days and interests. We build an itinerary that helps you adjust to the altitude."],
+ld:["¿Cuántos días te quedas?","How many days are you staying?"],
+li:["¿Qué te interesa? (elige varios)","What are you into? (pick several)"],
+go:["Crear mi itinerario","Create my itinerary"],
+ot:["Tu itinerario","Your itinerary"],
+wa:["Reservar con el hostal","Book with the hostel"],
+tt:["Consejos rápidos","Quick tips"],
+easy:["Día tranquilo","Easy day"],
+day:["Día","Day"],
+note:["Ritmo suave para aclimatarte.","Gentle pace to help you adjust."],
+hi:["Hola, soy huésped y quiero reservar actividades de mi plan CuscoPlan.","Hi, I'm a guest and I'd like to book activities from my CuscoPlan itinerary."],
+dl:["Días","Days"],il:["Intereses","Interests"],none:["Sin preferencia","No preference"],
+int:["Me interesa","I'm interested"],done:["✓ Anotado","✓ Noted"],hv:["Vista del hostal","Hostal view"],hvt:["Clics por tour","Clicks per tour"],back:["Volver","Back"],tot:["Total de clics","Total clicks"],loc:["Solo se cuentan los clics de este dispositivo.","Only clicks from this device are counted."],pin:["Código del hostal","Hostal code"],bad:["Código incorrecto","Wrong code"],vint:["Me interesan","Interested in"],shr:["Descargar o compartir tu itinerario","Download or share your itinerary"],img:["Imagen","Image"],sh:["Compartir","Share"],ok:["Listo. Revisa tu descarga.","Done. Check your download."],fail:["No se pudo guardar desde aquí.","Could not save from here."],foot:["Ritmo suave para adaptarte a la altura. Ante mareos fuertes, pide ayuda médica.","Gentle pace to adjust to altitude. With severe dizziness, seek medical help."]};
+let L=(navigator.language||"es").startsWith("en")?1:0,N=4,sel=new Set(),built=false;
+const $=id=>document.getElementById(id);
+const fm=m=>m.toLocaleString(L?"en-US":"es-PE").replace(/,/g,L?",":" ").replace(/\u00a0/g," ");
+function stagesFor(n){return [0,1,2,3,4,5,6].slice(0,n)}
+function items(s){return S[s].i.map((x,j)=>({id:s+"-"+j,k:x[0],t:x[1+L]})).filter(x=>x.k===0||sel.has(x.k))}
+function ui(){
+document.documentElement.lang=L?"en":"es";
+$("hb").textContent=TX.hv[L];rtSel();rtOut();$("sht").textContent=TX.shr[L];$("bpdf").textContent="PDF";$("bimg").textContent=TX.img[L];$("bshr").textContent=TX.sh[L];if(hvOpen&&totals)hv(totals,!DB);
+$("bes").className=L?"":"on";$("ben").className=L?"on":"";
+["h1","hp","ld","li","go","ot","tt"].forEach(k=>$(k).textContent=TX[k][L]);
+$("wa").textContent=TX.wa[L];
+$("days").innerHTML="";
+for(let d=2;d<=7;d++){const b=document.createElement("button");b.textContent=d;b.className=d===N?"on":"";b.setAttribute("aria-label",d+" "+TX.dl[L]);b.onclick=()=>{N=d;ui();if(built)plan()};$("days").appendChild(b)}
+$("chips").innerHTML="";
+I.forEach(([k,es,en])=>{const b=document.createElement("button");b.textContent=L?en:es;b.className=sel.has(k)?"on":"";b.setAttribute("aria-pressed",sel.has(k));b.onclick=()=>{sel.has(k)?sel.delete(k):sel.add(k);ui();if(built)plan()};$("chips").appendChild(b)});
+$("tips").innerHTML=TIPS.map(([es,en,l],i)=>'<details'+(i===0?' open':'')+'><summary>'+(L?en:es)+'</summary><ul>'+l.map(x=>'<li>'+x[L]+'</li>').join("")+'</ul></details>').join("");
+if(built)plan();
+}
+function plan(){
+built=true;$("out").className="";
+$("plan").innerHTML=stagesFor(N).map((s,i)=>{const e=i===0;
+return '<article class="day'+(e?' easy':'')+'"><div class="dh"><h3>'+TX.day[L]+' '+(i+1)+': '+S[s].t[L]+'</h3><span class="alt">'+fm(S[s].a)+' m</span></div>'+(e?'<p class="note">'+TX.easy[L]+'. '+TX.note[L]+'</p>':'')+'<ul>'+items(s).map(x=>'<li>'+x.t+(s>0?'<button class="int" data-id="'+x.id+'"'+(tapped.has(x.id)?' disabled>'+TX.done[L]:'>'+TX.int[L])+'</button>':'')+'</li>').join("")+'</ul></article>'}).join("");
+}
+$("go").onclick=()=>{plan();$("out").scrollIntoView({behavior:matchMedia("(prefers-reduced-motion: reduce)").matches?"auto":"smooth"})};
+$("wa").onclick=()=>{
+const ints=I.filter(x=>sel.has(x[0])).map(x=>x[1+L]).join(", ")||TX.none[L];
+const lines=stagesFor(N).map((s,i)=>TX.day[L]+" "+(i+1)+": "+S[s].t[L]);
+const tn=[...tapped].map(tname).join("; ");const msg=TX.hi[L]+"\n"+TX.dl[L]+": "+N+"\n"+TX.il[L]+": "+ints+"\n\n"+lines.join("\n")+(tn?"\n\n"+TX.vint[L]+": "+tn:"");
+window.open("https://wa.me/"+HOTEL_WA+"?text="+encodeURIComponent(msg),"_blank","noopener");
+};
+$("bes").onclick=()=>{L=0;ui()};$("ben").onclick=()=>{L=1;ui()};
+const LS="cp_clicks";let counts={},tapped=new Set(),DB=null,myDoc=null,hvOpen=false,unsub=null,totals=null;
+try{counts=JSON.parse(localStorage.getItem(LS)||"{}")}catch(e){}
+function save(){try{localStorage.setItem(LS,JSON.stringify(counts))}catch(e){}}
+function tname(id){const p=id.split("-");return S[p[0]].i[p[1]][1+L]}
+$("plan").onclick=async e=>{const b=e.target.closest(".int");if(!b||tapped.has(b.dataset.id))return;const id=b.dataset.id;tapped.add(id);b.textContent=TX.done[L];b.disabled=true;counts[id]=(counts[id]||0)+1;save();if(myDoc){try{await myDoc.set({counts})}catch(err){}}};
+(async()=>{try{if(!window.claude)return;const db=await claude.use("db"),us=await claude.use("user");if(!db||!us)return;const uid=await us.id();if(!uid)return;myDoc=db.collection("taps").doc(uid);DB=db;const sn=await myDoc.get();if(sn.exists){const c=sn.data().counts||{};for(const k in c)counts[k]=Math.max(counts[k]||0,c[k])}}catch(e){DB=null;myDoc=null}})();
+function hv(t,local){const r=[];S.forEach((st,s)=>{if(s>0)st.i.forEach((x,j)=>r.push([s+"-"+j,t[s+"-"+j]||0]))});r.sort((a,b)=>b[1]-a[1]);const mx=Math.max(1,...r.map(x=>x[1])),sum=r.reduce((a,x)=>a+x[1],0);
+$("hv").innerHTML='<h2>'+TX.hvt[L]+'</h2><p class="note">'+TX.tot[L]+': <b>'+sum+'</b>'+(local?'<br>'+TX.loc[L]:'')+'</p>'+r.map(x=>'<div class="row"><div class="rt">'+tname(x[0])+'<small>'+S[x[0].split("-")[0]].t[L]+'</small></div><div class="bar"><i style="width:'+(x[1]/mx*85)+'%"></i><b>'+x[1]+'</b></div></div>').join("")+'<button class="cta" id="bk">'+TX.back[L]+'</button>';
+$("bk").onclick=closeHv}
+function openHv(){const p=prompt(TX.pin[L]);if(p===null)return;if(p!==HOSTAL_PIN){alert(TX.bad[L]);return}
+hvOpen=true;$("app").className="hide";$("hv").className="box";scrollTo(0,0);
+if(DB){unsub&&unsub();unsub=DB.collection("taps").onSnapshot(sn=>{const t={};sn.docs.forEach(d=>{const c=(d.data()||{}).counts||{};for(const k in c)t[k]=(t[k]||0)+c[k]});totals=t;hv(t,false)},()=>{totals=counts;hv(counts,true)})}else{totals=counts;hv(counts,true)}}
+function closeHv(){hvOpen=false;unsub&&unsub();unsub=null;$("hv").className="box hide";$("app").className=""}
+$("hb").onclick=openHv;
+
+function wrapT(c,t,w){const o=[];let l="";for(const x of t.split(" ")){const q=l?l+" "+x:x;if(c.measureText(q).width>w&&l){o.push(l);l=x}else l=q}if(l)o.push(l);return o}
+function paint(c,dry,H){const W=1080,P=48,IW=W-2*P,SF="'Nunito Sans',system-ui,sans-serif",SR="'Young Serif',Georgia,serif";
+const ints=I.filter(x=>sel.has(x[0])).map(x=>x[1+L]).join(", ")||TX.none[L];
+if(!dry){c.fillStyle="#E8EBE2";c.fillRect(0,0,W,H);c.fillStyle="#2F5233";c.fillRect(0,0,W,210);c.fillStyle="#F1F4E8";c.textBaseline="alphabetic";c.font="64px "+SR;c.fillText("CuscoPlan",P,100);c.font="600 28px "+SF;c.fillText(N+" "+TX.dl[L].toLowerCase()+" – "+ints,P,155)}
+let y=210+36;
+stagesFor(N).forEach((s,i)=>{const it=items(s);c.font="28px "+SF;const blocks=it.map(x=>wrapT(c,x.t,IW-28-34-20));
+const note=i===0;let h=26+44+(note?38:0)+8;blocks.forEach(b=>h+=b.length*40+10);h+=14;
+if(!dry){c.fillStyle="#F6F5EF";c.fillRect(P,y,IW,h);c.fillStyle=i===0?"#B98A2E":"#2F5233";c.fillRect(P,y,8,h);
+c.fillStyle="#26301F";c.font="34px "+SR;c.fillText(TX.day[L]+" "+(i+1)+": "+S[s].t[L],P+28,y+26+34);
+c.font="700 26px "+SF;c.fillStyle="#7B4F2C";const a=fm(S[s].a)+" m",aw=c.measureText(a).width;c.fillText(a,P+IW-20-aw,y+26+34)}
+let yy=y+26+44+8;
+if(note){if(!dry){c.font="26px "+SF;c.fillStyle="#5C6553";c.fillText(TX.easy[L]+". "+TX.note[L],P+28,yy+10)}yy+=38}
+blocks.forEach(b=>{b.forEach((ln,k)=>{if(!dry){c.font="28px "+SF;c.fillStyle="#26301F";if(k===0)c.fillText("•",P+28,yy+30);c.fillText(ln,P+28+34,yy+30)}yy+=40});yy+=10});
+y+=h+22});
+c.font="24px "+SF;const fl=wrapT(c,TX.foot[L],IW);if(!dry){c.fillStyle="#5C6553";fl.forEach((ln,k)=>c.fillText(ln,P,y+30+k*32))}
+y+=fl.length*32+50;return y}
+async function mkCanvas(){try{await document.fonts.load("34px 'Young Serif'");await document.fonts.load("28px 'Nunito Sans'")}catch(e){}
+const m=document.createElement("canvas").getContext("2d");const H=paint(m,true,0);const cv=document.createElement("canvas");cv.width=1080;cv.height=H;paint(cv.getContext("2d"),false,H);return cv}
+function pdfOf(jpg,w,h){const en=new TextEncoder(),pw=540,ph=Math.round(h*540/w),parts=[],off=[];let len=0;
+const add=x=>{const b=typeof x==="string"?en.encode(x):x;parts.push(b);len+=b.length};
+add("%PDF-1.4\n");off[1]=len;add("1 0 obj\n<</Type/Catalog/Pages 2 0 R>>\nendobj\n");
+off[2]=len;add("2 0 obj\n<</Type/Pages/Kids[3 0 R]/Count 1>>\nendobj\n");
+off[3]=len;add("3 0 obj\n<</Type/Page/Parent 2 0 R/MediaBox[0 0 "+pw+" "+ph+"]/Resources<</XObject<</Im0 4 0 R>>>>/Contents 5 0 R>>\nendobj\n");
+off[4]=len;add("4 0 obj\n<</Type/XObject/Subtype/Image/Width "+w+"/Height "+h+"/ColorSpace/DeviceRGB/BitsPerComponent 8/Filter/DCTDecode/Length "+jpg.length+">>\nstream\n");add(jpg);add("\nendstream\nendobj\n");
+const cs="q "+pw+" 0 0 "+ph+" 0 0 cm /Im0 Do Q";off[5]=len;add("5 0 obj\n<</Length "+cs.length+">>\nstream\n"+cs+"\nendstream\nendobj\n");
+const xr=len;let x="xref\n0 6\n0000000000 65535 f \n";for(let i=1;i<=5;i++)x+=String(off[i]).padStart(10,"0")+" 00000 n \n";
+add(x+"trailer\n<</Size 6/Root 1 0 R>>\nstartxref\n"+xr+"\n%%EOF");return new Blob(parts,{type:"application/pdf"})}
+const stM=t=>{$("st").textContent=t};
+async function saveB(name,blob){try{const d=await claude.use("downloads");if(!d)throw 0;await d.save({filename:name,data:blob});stM(TX.ok[L])}catch(e){if(e&&e.code==="declined")return;stM(TX.fail[L])}}
+const pngB=cv=>new Promise(r=>cv.toBlob(r,"image/png"));
+$("bimg").onclick=async()=>{saveB("cuscoplan-itinerario.png",await pngB(await mkCanvas()))};
+$("bpdf").onclick=async()=>{const cv=await mkCanvas(),b=atob(cv.toDataURL("image/jpeg",.92).split(",")[1]),u=new Uint8Array(b.length);for(let i=0;i<b.length;i++)u[i]=b.charCodeAt(i);saveB("cuscoplan-itinerario.pdf",pdfOf(u,cv.width,cv.height))};
+$("bshr").onclick=async()=>{const blob=await pngB(await mkCanvas());try{const f=new File([blob],"cuscoplan-itinerario.png",{type:"image/png"});if(navigator.canShare&&navigator.canShare({files:[f]})){await navigator.share({files:[f],title:"CuscoPlan"});return}}catch(e){if(e&&e.name==="AbortError")return}saveB("cuscoplan-itinerario.png",blob)};
+const MES=[["Ene","Feb","Mar","Abr","May","Jun","Jul","Ago","Sep","Oct","Nov","Dic"],["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"]];
+const MFULL=[["enero","febrero","marzo","abril","mayo","junio","julio","agosto","septiembre","octubre","noviembre","diciembre"],["January","February","March","April","May","June","July","August","September","October","November","December"]];
+const RAIN=[3,3,3,2,1,0,0,0,1,1,2,2],SLID=[3,3,3,2,1,0,0,0,0,1,1,2];
+const RT=[
+{n:["Lima → Cusco","Lima → Cusco"],f:1,air:["≈ 1 h 30, vuelo directo","≈ 1 h 30, direct flight"],land:["≈ 20–24 h en bus, por Nasca y Abancay","≈ 20–24 h by bus, via Nasca and Abancay"],alt:["Cruza pasos de más de 4 000 m: lleva abrigo y agua.","Crosses passes above 4,000 m: bring warm clothes and water."]},
+{n:["Arequipa → Cusco","Arequipa → Cusco"],f:.8,air:["Pocos vuelos directos; suele haber escala en Lima (≈ 4–6 h en total)","Few direct flights; usually a stop in Lima (≈ 4–6 h total)"],land:["≈ 10–11 h en bus","≈ 10–11 h by bus"],alt:["Cruza pasos de más de 4 000 m: lleva abrigo y agua.","Crosses passes above 4,000 m: bring warm clothes and water."]},
+{n:["Puno o Juliaca → Cusco","Puno or Juliaca → Cusco"],f:.6,air:["Pocos vuelos; suele haber escala en Lima (≈ 4–7 h en total)","Few flights; usually a stop in Lima (≈ 4–7 h total)"],land:["≈ 6–7 h en bus turístico, con paradas","≈ 6–7 h by tourist bus, with stops"],alt:["Pasa por La Raya (más de 4 000 m): lleva abrigo.","Goes through La Raya (over 4,000 m): bring warm clothes."]},
+{n:["Cusco → Machu Picchu","Cusco → Machu Picchu"],f:.8,air:null,land:["Tren ≈ 1 h 45 a 3 h 30 según la estación; luego bus o caminata","Train ≈ 1 h 45 to 3 h 30 depending on the station; then bus or walk"],alt:["Baja a 2 400 m: se respira mejor.","Drops to 2,400 m: easier breathing."]}];
+const LV=[["Bajo","Low"],["Moderado","Moderate"],["Alto","High"],["Muy alto","Very high"]];
+const TR={h:["Comparador de rutas","Route comparator"],lo:["Ruta","Route"],lm:["Mes de viaje","Travel month"],air:["Aéreo","By air"],land:["Terrestre","By land"],rain:["Lluvia","Rain"],sl:["Derrumbes","Landslides"],dl:["Retrasos por clima","Weather delays"],noair:["No hay vuelos en esta ruta.","No flights on this route."],na:["No aplica","N/A"],
+airn:["Subes de golpe a 3 400 m: descansa el día 1.","You go up to 3,400 m at once: rest on day 1."],
+r0:["Solo hay ruta terrestre y el riesgo de derrumbes es alto: sal temprano, confirma el estado de la vía y deja un día de margen.","Land is the only route and landslide risk is high: leave early, check road status and keep a spare day."],
+r1:["Solo hay ruta terrestre: confirma horarios y el estado de la vía antes de salir.","Land is the only route: confirm schedules and road status before leaving."],
+r2:["Conviene volar: por tierra el riesgo de derrumbes y bloqueos es alto en este mes.","Flying is the better choice: by land, landslide and road-block risk is high this month."],
+r3:["Ambas sirven. Por tierra, sal temprano y confirma la vía; volar es más rápido y evita ese riesgo.","Both work. By land, leave early and check the road; flying is faster and avoids that risk."],
+r4:["Buen mes para ir por tierra si tienes tiempo: el riesgo de derrumbes es bajo. Volar sigue siendo lo más rápido.","Good month to go by land if you have time: landslide risk is low. Flying is still fastest."],
+lg:["Barras verdes: lluvia. Barras marrones: derrumbes en la ruta terrestre.","Green bars: rain. Brown bars: landslides on the land route."],
+nt:["Es un estimado por temporada (la lluvia fuerte va de noviembre a marzo), no un pronóstico en vivo. Antes de viajar revisa SENAMHI, COEN-INDECI y el estado de vías de Provías Nacional.","This is a seasonal estimate (heavy rain runs November to March), not a live forecast. Before traveling check SENAMHI, COEN-INDECI and road status from Provías Nacional."],
+tm:["Tiempos aproximados; confírmalos con la aerolínea o empresa.","Approximate times; confirm them with the airline or company."]};
+let RO=0,RM=new Date().getMonth();
+const lvl=x=>x<=.5?0:x<=1.5?1:x<=2.5?2:3;
+function rtSel(){$("rth").textContent=TR.h[L];$("rlo").textContent=TR.lo[L];$("rlm").textContent=TR.lm[L];
+$("ro").innerHTML=RT.map((r,i)=>'<option value="'+i+'"'+(i===RO?' selected':'')+'>'+r.n[L]+'</option>').join("");
+$("rm").innerHTML=MFULL[L].map((m,i)=>'<option value="'+i+'"'+(i===RM?' selected':'')+'>'+m[0].toUpperCase()+m.slice(1)+'</option>').join("")}
+const tag=(k,t,v)=>'<span class="tg l'+k+'">'+t+': '+v+'</span>';
+function rtOut(){const r=RT[RO],rain=RAIN[RM],sl=lvl(SLID[RM]*r.f),rl=lvl(rain),dl=lvl(rain*.6);
+const air=r.air?'<div class="opt"><h3>'+TR.air[L]+'</h3><p>'+r.air[L]+'</p><p class="note">'+TR.airn[L]+'</p><div class="tags">'+tag(dl,TR.dl[L],LV[dl][L])+tag(rl,TR.rain[L],LV[rl][L])+'</div></div>':'<div class="opt"><h3>'+TR.air[L]+'</h3><p>'+TR.noair[L]+'</p></div>';
+const land='<div class="opt"><h3>'+TR.land[L]+'</h3><p>'+r.land[L]+'</p><p class="note">'+r.alt[L]+'</p><div class="tags">'+tag(sl,TR.sl[L],LV[sl][L])+tag(rl,TR.rain[L],LV[rl][L])+'</div></div>';
+const rec=!r.air?(sl>=2?TR.r0:TR.r1):sl>=2?TR.r2:sl===1?TR.r3:TR.r4;
+const ch='<div class="ch" role="img" aria-label="'+TR.lg[L]+'">'+MES[L].map((m,i)=>'<div class="mc'+(i===RM?' on':'')+'"><div class="bs"><i class="a" style="height:'+(6+RAIN[i]/3*50)+'px"></i><i class="b" style="height:'+(6+Math.min(3,SLID[i]*r.f)/3*50)+'px"></i></div><small>'+m+'</small></div>').join("")+'</div>';
+$("rout").innerHTML=air+land+'<div class="rec">'+rec[L]+'</div>'+ch+'<p class="lgd">'+TR.lg[L]+'</p><p class="note" style="margin-top:10px">'+TR.tm[L]+' '+TR.nt[L]+'</p>'}
+$("ro").onchange=e=>{RO=+e.target.value;rtOut()};$("rm").onchange=e=>{RM=+e.target.value;rtOut()};
+ui();
+</script></body></html>
